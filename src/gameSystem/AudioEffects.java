@@ -9,12 +9,15 @@ import java.util.*;
 
 
 public class AudioEffects {
-    //Collsion collsion;
+
+
+
+
 
 
     public Random rand = new Random(System.currentTimeMillis());
 
-   public final static String jump= new File (Main.AUDIO_PATH+ "jump.wav").toURI().toString();
+    public final static String jump= new File (Main.AUDIO_PATH+ "jump.wav").toURI().toString();
     public final static String carPassSound= new File(Main.AUDIO_PATH + "car-pass.wav").toURI().toString();
     public final static String die= new File(Main.AUDIO_PATH + "frog_die.wav").toURI().toString();
     public final static String goal= new File(Main.AUDIO_PATH + "goal.wav").toURI().toString();

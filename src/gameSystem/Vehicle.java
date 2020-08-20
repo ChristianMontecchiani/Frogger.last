@@ -1,9 +1,6 @@
 package gameSystem;
 
 import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
-import sample.Main;
-
 import java.io.File;
 
 public class Vehicle extends Entity {
@@ -22,6 +19,10 @@ public class Vehicle extends Entity {
 
     }
 
+    public double getSpeed(){
+        return this.speed;
+    }
+
     @Override
     public void movement(Long now) {
         move(speed , 0);
@@ -29,8 +30,6 @@ public class Vehicle extends Entity {
             setX(-180);
         if (getX() < -50 && speed<0)
             setX(700);
-
-
     }
 }
 

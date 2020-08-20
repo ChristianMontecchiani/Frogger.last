@@ -25,6 +25,7 @@ public class Snake extends Entity{
         setY(yPos);
         setImage(snake1Right);
     }
+
     @Override
     public void movement(Long now) {
 
@@ -49,7 +50,5 @@ public class Snake extends Entity{
                 setImage(snake2Left);
             }
         }
-
-
     }
 }

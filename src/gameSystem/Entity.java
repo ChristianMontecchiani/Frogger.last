@@ -15,6 +15,7 @@ public abstract class Entity extends ImageView {
         setY(getY() + dy);
     }
 
+    //se non le usiamo possiamo anche toglierle
     public double getWidth() {
         return this.getBoundsInLocal().getWidth();
     }
