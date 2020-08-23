@@ -2,10 +2,7 @@ package gameSystem;
 
 import javafx.scene.image.Image;
 import sample.Main;
-
 import java.io.File;
-
-
 
 public class Snake extends Entity{
 

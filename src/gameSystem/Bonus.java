@@ -16,7 +16,6 @@ public class Bonus extends Entity{
         setY(107);
     }
 
-
     @Override
     public void movement(Long now) {
         if (now/900000000 % 4 == 1)

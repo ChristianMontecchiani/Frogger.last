@@ -3,17 +3,15 @@ package gameSystem;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import sample.Main;
-import sample.RankingTable;
+
 
 import java.io.File;
 
 
 public class Death {
-    private final static String die= new File(Main.AUDIO_PATH + "frog_die.wav").toURI().toString();
-    private static AudioClip frogDie = new AudioClip(die);
 
-    private final static String waterSplashSound= new File(Main.AUDIO_PATH + "water-splash.wav").toURI().toString();
-    private static AudioClip waterSplash= new AudioClip(waterSplashSound);
+    private final static String die= new File(Main.AUDIO_PATH + "frog_die.wav").toURI().toString();
+    private final static AudioClip frogDie = new AudioClip(die);
 
     static int carD = 0;
     static int watD = 0;
@@ -28,21 +26,6 @@ public class Death {
         if(carD==1) {
             frog.setImage(new Image(new File(Main.IMAGE_PATH + "cardeath1.png").toURI().toString(), 30, 30, true, true));
             frogDie.play(20);
-            GameScene.clock.animation.stop();
-
-            //quando muore leva una vita
-            if(GameScene.FROGGER_LIVES == 5)
-                GameScene.backgroundScene.getChildren().remove(GameScene.life5);
-            if(GameScene.FROGGER_LIVES == 4)
-                GameScene.backgroundScene.getChildren().remove(GameScene.life4);
-            if(GameScene.FROGGER_LIVES == 3)
-                GameScene.backgroundScene.getChildren().remove(GameScene.life3);
-            if(GameScene.FROGGER_LIVES == 2)
-                GameScene.backgroundScene.getChildren().remove(GameScene.life2);
-            if(GameScene.FROGGER_LIVES == 1) {
-                GameScene.backgroundScene.getChildren().remove(GameScene.life1);
-                RankingTable.scoreRecord();
-            }
 
         }
 
@@ -61,11 +44,11 @@ public class Death {
             frog.setY(475);
             death=true;
             GameScene.FROGGER_LIVES--;
+            GameScene.lifelost=true;
 
         }
         return death;
     }
-
 
     public static boolean waterDeath(Long now,Frog frog) {
 
@@ -76,22 +59,7 @@ public class Death {
 
         if(watD==1) {
             frog.setImage(new Image(new File(Main.IMAGE_PATH + "waterdeath1.png").toURI().toString(), 30, 30, true, true));
-            waterSplash.play(20);
-            GameScene.clock.animation.stop();
-
-
-            if(GameScene.FROGGER_LIVES == 5)
-                GameScene.backgroundScene.getChildren().remove(GameScene.life5);
-            if(GameScene.FROGGER_LIVES == 4)
-                GameScene.backgroundScene.getChildren().remove(GameScene.life4);
-            if(GameScene.FROGGER_LIVES == 3)
-                GameScene.backgroundScene.getChildren().remove(GameScene.life3);
-            if(GameScene.FROGGER_LIVES == 2)
-                GameScene.backgroundScene.getChildren().remove(GameScene.life2);
-            if(GameScene.FROGGER_LIVES == 1) {
-                GameScene.backgroundScene.getChildren().remove(GameScene.life1);
-                RankingTable.scoreRecord();
-            }
+            frogDie.play(20);
         }
 
         if(watD==2) {
@@ -108,6 +76,7 @@ public class Death {
             frog.setY(475);
             death=true;
             GameScene.FROGGER_LIVES--;
+            GameScene.lifelost=true;
 
         }
         return death;

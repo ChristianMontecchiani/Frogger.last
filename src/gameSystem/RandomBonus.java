@@ -5,27 +5,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-
 public class RandomBonus {
 
     private static int counter = 5;
     static Integer[] pos = new Integer[]{9, 83, 158, 233, 308};
-    private static List<Integer> visible = new LinkedList<Integer>(Arrays.asList(pos));
-    private static List<Integer> notVisible = Arrays.asList(-100, -200, -50, 300, 350);
+    private final static List<Integer> visible = new LinkedList<>(Arrays.asList(pos));
     static int lastIndex = -1;
 
     public static int visiblePos() {
-        int i = 0;
+        int i;
         Random rand = new Random();
         i = visible.get(rand.nextInt(visible.size()));
         lastIndex = visible.indexOf(i);
         return i;
-    }
-
-    public static int notVisiblePos() {
-
-        Random rand = new Random();
-        return notVisible.get(rand.nextInt(notVisible.size()));
     }
 
     public static void removePos(int x) {
@@ -40,9 +32,7 @@ public class RandomBonus {
         }
     }
 
-    public static void print() {
-        System.out.println(visible);
-    }
+    //public static void print() {
+      //  System.out.println(visible);
+   // }
 }
-
-

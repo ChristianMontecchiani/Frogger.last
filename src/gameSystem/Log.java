@@ -7,7 +7,7 @@ import java.io.File;
 
 public class Log extends Entity {
 
-    private double speed;
+    private final double speed;
 
     public Log(String logImage, int size, int x, int y, double speed) {
 
@@ -16,8 +16,9 @@ public class Log extends Entity {
         setY(y);
         this.speed = speed;
 
-
-
+    }
+    public double getSpeed(){
+        return  this.speed;
     }
 
     @Override
@@ -27,10 +28,6 @@ public class Log extends Entity {
             setX(-180);
         if (getX()<-50 && speed<0)
             setX(700);
-    }
-
-    public double getSpeed(){
-        return  this.speed;
     }
 }
 

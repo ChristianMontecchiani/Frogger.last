@@ -1,95 +1,84 @@
 package gameSystem;
 
-
-import javafx.geometry.Insets;
+import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.Main;
-import sample.MenuActions;
+
 
 import java.io.File;
 
+
 public class PauseClass extends Pane {
 
-   private Button pauseButton = new Button("||");
 
-
-    public PauseClass(){
-        //position PAUSE button
-        pauseButton.setTranslateX(10.0);
-        pauseButton.setTranslateY(10.0);
-
-        getChildren().add(pauseButton);
-        pauseButton.setOnAction(e-> pause());
-    }
-
-
-
-
-
-    private void  pause() {
+    public static void  pause(AnimationTimer timer,Button button) {
         
-        //Fermo il tempo
-        GameScene.clock.animation.stop();
+        //STOPPO IL TEMPO
+        timer.stop();
 
+        //CREO LO STAGE, TITOLO, NON E' RIDIMENSIONABILE
         Stage pauseStage = new Stage();
+        pauseStage.initModality(Modality.APPLICATION_MODAL);
+        pauseStage.setResizable(false);
         pauseStage.setTitle("Pause Menu");
-        
-        
-        AnchorPane pauseAncPane = new AnchorPane();
 
+         AnchorPane pauseAncPane = new AnchorPane();
 
-
-
-
-
-        //Immagine di sfondo della finestra di pausa
-        Image bkimage = new Image(new File(Main.IMAGE_PATH + "sfondoPauseClass.png").toURI().toString(), 291,300,false, true);
+        //SFONDO DELLO STAGE
+        Image bkimage = new Image(new File(Main.IMAGE_PATH + "sfondoPauseClass.png").toURI().toString(), 291,300,true, true);
         BackgroundImage backgroundImage = new BackgroundImage(bkimage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         pauseAncPane.setBackground(new Background(backgroundImage));
 
+        //BOTTONE VOLUME, DIMENSIONE, POSIZIONE
         Button volumeButton = new Button("AUDIO ON/OFF");
         volumeButton.setPrefSize(120.0,37.0);
         AnchorPane.setTopAnchor(volumeButton,90.0);
         AnchorPane.setLeftAnchor(volumeButton, 85.0);
 
 
-
+        //BOTTONE RESUME, DIMENSIONE, POSIZIONE
         Button resumeButton = new Button("RESUME");
         resumeButton.setPrefSize(120.0,37.0);
         AnchorPane.setTopAnchor(resumeButton,142.0);
         AnchorPane.setLeftAnchor(resumeButton, 85.0);
 
 
-
         pauseAncPane.getChildren().addAll(volumeButton, resumeButton);
-
-        Scene pauseScene = new Scene(pauseAncPane, 290, 290);
-        pauseStage.setScene(pauseScene);
+        pauseStage.setScene(new Scene(pauseAncPane, 290, 290));
         pauseStage.initStyle(StageStyle.DECORATED);
         pauseStage.show();
 
+        //AZIONE BOTTONE VOLUME
         volumeButton.setOnAction(e -> {
 
-            if (MenuActions.autoPlay) {
-                MenuActions.autoPlay = false;
+            if (Main.autoPlay) {
+                Main.autoPlay = false;
                 GameScene.mediaPlayer.pause();
 
             } else {
-                MenuActions.autoPlay = true;
+                Main.autoPlay = true;
                 GameScene.mediaPlayer.play();
             }
         });
 
+        //AZIONE BOTTONE RESUME
         resumeButton.setOnAction(e -> {
+
             pauseStage.close();
-            GameScene.clock.animation.play();
+            timer.start();
+            button.setDisable(false);
+        });
+
+        //AZIONE ALLA CHIUSURA DELLO STAGE CON LA X
+        pauseStage.setOnCloseRequest(e -> {
+            button.setDisable(false);
+            timer.start();
         });
     }
 }

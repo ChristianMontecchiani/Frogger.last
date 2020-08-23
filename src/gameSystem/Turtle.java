@@ -8,7 +8,7 @@ import java.io.File;
 
 public class Turtle extends Entity {
 
-    private double speed;
+    private final double speed;
     Image turtle1;
     Image turtle2;
     Image turtle3;
@@ -45,28 +45,28 @@ public class Turtle extends Entity {
     @Override
     public void movement (Long now){
         move(speed, 0);
-        if (getX() > 600 && speed > 0)
-            setX(-200);
-        if (getX() < -75 && speed < 0)
-            setX(600);
+        if (getX() > 500 && speed > 0)
+            setX(-180);
+        if (getX() < -50 && speed < 0)
+            setX(700);
 
-        if ((now /3)/ 900000000 % 4 == 1) {
+        if ((now/3/ 900000000 +((int)this.getY()/100) )% 4 == 1) {
             setImage(turtleWet1);
             sink = true;
-        } else if ((now /3) / 900000000 % 4 == 2) {
+        } else if ((now/3/900000000+((int)this.getY()/100))% 4 == 2) {
             setImage(turtleWet2);
             sink = true;
-        } else if ((now /3) / 900000000 % 4 == 3) {
+        } else if ((now/3/ 900000000 +((int)this.getY()/100) )% 4== 3) {
             setImage(turtleWet3);
             sink = true;
-        } else if ((now /3)/ 900000000 % 3 == 0) {
+        } else if ((now/3/ 900000000 +((int)this.getY()/100) ) % 4== 0) {
             setImage(turtle2);
             sink=false;
 
-        } else if ((now /3)/ 900000000 % 3 == 1) {
+        } else if ((now/3/ 900000000 +((int)this.getY()/100) ) % 3== 1) {
             setImage(turtle1);
             sink=false;
-        } else if ((now /3)/ 900000000 % 3 == 2) {
+        } else if ((now/3/ 900000000 +((int)this.getY()/100) )% 3== 2) {
             setImage(turtle3);
             sink=false;
 
@@ -75,4 +75,3 @@ public class Turtle extends Entity {
     }
 
 }
-
