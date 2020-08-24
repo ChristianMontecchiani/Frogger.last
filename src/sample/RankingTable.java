@@ -1,7 +1,5 @@
 package sample;
 
-
-
 import gameSystem.GameScene;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,20 +17,19 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-
+import static sample.Main.primaryStage;
 import static gameSystem.GameScene.*;
 import static sample.Main.IMAGE_PATH;
 
-//stramodificato
 public class RankingTable {
 
-    private static final Image backImage =new Image( new File(IMAGE_PATH + "Ranking.png").toURI().toString(), 500,500,false,true);
+    private static final Image backImage =new Image( new File(IMAGE_PATH + "Ranking.png").toURI().toString(), 500,550,false,true);
     static String fileName = IMAGE_PATH+"RankingTable.csv";
     static String charset = "UTF-8";
     static PlayerData playerData=new PlayerData();
     static int numScores=0;
     static int numClick=0;
-
+    public static boolean enableAddButton; //serve per impedire che si aggiungano risultati nei momenti sbagliati
 
     static List<Integer> scoreRecords= new ArrayList<>();
 
@@ -46,17 +43,19 @@ public class RankingTable {
         Stage scoreStage = new Stage();
         scoreStage.setTitle("Ranking");
         scoreStage.initModality(Modality.APPLICATION_MODAL);
+        scoreStage.setResizable(false);
 
         nameInput = new TextField();
         nameInput.setPromptText("Player NAME");
 
 
-
         //caricamento ranking
-        LinkedList<String[]> lstRows = FileManagment.read(fileName, charset);
-        for (String[] sArr : lstRows) {
-            playerData.add(new Player(sArr[0], Integer.parseInt(sArr[1])));
-            scoreRecords.add(Integer.parseInt(sArr[1]));
+        if(numClick<1) {
+            LinkedList<String[]> lstRows = FileManagment.read(fileName, charset);
+            for (String[] sArr : lstRows) {
+                playerData.add(new Player(sArr[0], Integer.parseInt(sArr[1])));
+                scoreRecords.add(Integer.parseInt(sArr[1]));
+            }
         }
         numScores = scoreRecords.size();
         //sorting the scores in decreasing values
@@ -65,11 +64,12 @@ public class RankingTable {
 
 
         Button addButton = new Button("Add");
-        if (numScores >9 && scoreRecords.get(9) > GameScene.points) {
-            addButton.setDisable(true);
-            nameInput.setDisable(true);
+        addButton.setDisable(!enableAddButton);
 
-        }
+        if (numScores >9 && scoreRecords.get(9) > GameScene.points)
+            addButton.setDisable(true);
+
+
 
         addButton.setOnAction(e -> {
             try {
@@ -86,7 +86,6 @@ public class RankingTable {
         hBox.setSpacing(10);
         hBox.getChildren().addAll(nameInput, addButton, resumeButton);
 
-        //Button
 
 
         GridPane gridPane = new GridPane();
@@ -103,7 +102,7 @@ public class RankingTable {
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
 
 
-        //Imaginesfondo
+        //Sfondo
         BackgroundImage backgroundImage = new BackgroundImage(backImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         gridPane.setBackground(new Background(backgroundImage));
 
@@ -120,7 +119,7 @@ public class RankingTable {
         gridPane.add(table, 0, 1);
 
 
-        Scene scene = new Scene(gridPane, 500, 500);
+        Scene scene = new Scene(gridPane, 500, 530);
         scoreStage.setScene(scene);
         scoreStage.show();
 
@@ -129,6 +128,7 @@ public class RankingTable {
             Main.autoPlay = true;
             if(FROGGER_LIVES==0 || burrowCounter==5) {
                 Main.mediaPlayer.pause();
+                primaryStage.setScene(Main.scene);
 
             }else {
                 Main.mediaPlayer.play();
@@ -141,25 +141,32 @@ public class RankingTable {
 
     }
 
+
     public static void addButtonClicked(Button button) throws IOException {
 
         Player player = new Player();
-        player.setName(nameInput.getText());
-        player.setScore(GameScene.points);
-        scoreRecords.add(GameScene.points);
-        playerData.add(player);
-        Collections.sort(scoreRecords, Collections.reverseOrder());
-        playerData=sortPlayers(playerData);
-        if(scoreRecords.size()>10) {
-            playerData.remove(9);
-            scoreRecords.remove(9);
-        }
-        table.getItems().clear();
-        table.setItems(getPlayer(playerData));
-        FileManagment.write(fileName, charset, playerData.asListOfStringArray());
-        nameInput.clear();
+        String name=nameInput.getText();
+        if(!name.equals("") && !name.contains(";")) {
+            player.setName(name);
+            player.setScore(GameScene.points);
+            scoreRecords.add(GameScene.points);
+            playerData.add(player);
+            Collections.sort(scoreRecords, Collections.reverseOrder());
+            playerData = sortPlayers(playerData);
+            if (scoreRecords.size() > 10) {
+                playerData.remove(playerData.size()-1);
+                scoreRecords.remove(scoreRecords.size()-1);
+            }
+            table.getItems().clear();
+            table.setItems(getPlayer(playerData));
+            FileManagment.write(fileName, charset, playerData.asListOfStringArray());
+            nameInput.clear();
 
-        button.setDisable(true);
+            enableAddButton = false;
+            button.setDisable(true);
+        }else
+            System.out.println("non valido");
+
 
     }
 
@@ -189,6 +196,7 @@ public class RankingTable {
                 }
         return allplayers;
     }
+
 
 
 }

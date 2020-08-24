@@ -31,8 +31,4 @@ public class RandomBonus {
             visible.remove(0);
         }
     }
-
-    //public static void print() {
-      //  System.out.println(visible);
-   // }
 }

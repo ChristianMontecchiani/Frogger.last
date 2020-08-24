@@ -5,12 +5,12 @@ import sample.Main;
 
 import java.io.File;
 
-
 public class Bonus extends Entity{
 
     private double xPos = -100;
 
     public Bonus(){
+
         setImage(new Image(new File(Main.IMAGE_PATH +"fly.png").toURI().toString(),25,25,true,true));
         setX(500);
         setY(107);

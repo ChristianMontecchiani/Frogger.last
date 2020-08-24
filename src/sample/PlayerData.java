@@ -7,7 +7,7 @@ public class PlayerData {
     private LinkedList<Player> playerLst;
 
     public PlayerData() {
-        this.playerLst = new LinkedList<Player>();
+        this.playerLst = new LinkedList<>();
     }
 
     public void add(Player player) {

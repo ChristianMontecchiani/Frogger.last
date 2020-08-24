@@ -8,6 +8,7 @@ import java.util.List;
 public class Collision {
 
     public static <T extends Entity> boolean specificCollision(List<Entity> interceptable,Frog f,Class<T> cls){
+
         boolean collides=false;
         List<T> sameEntities = getSpecificEntity(interceptable,cls);
         for(T entity: sameEntities)
@@ -19,6 +20,7 @@ public class Collision {
 
     @SuppressWarnings("unchecked")
     public static <T extends Entity> List<T> getSpecificEntity(List<Entity> interceptable,Class<T> cls) {
+
         ArrayList<T> entityArray = new ArrayList<T>();
         for (Entity entity : interceptable)
             if (cls.isInstance(entity))
@@ -28,6 +30,7 @@ public class Collision {
     }
 
     public static <T extends Entity> T getOne(List<Entity> interceptable,Frog f,Class<T> cls){
+
         T theOne=null;
         List<T> sameOnes=getSpecificEntity(interceptable,cls);
         for(T one: sameOnes)

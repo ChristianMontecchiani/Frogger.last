@@ -37,10 +37,10 @@ public class Main extends Application {
     static Button rankingButton;
     static ChoiceBox<String> difficultyChoiceBox;
     static  AnchorPane menuPane;
-     BackgroundImage backgroundImage;
+    BackgroundImage backgroundImage;
     Image greenImage;
-     Image redImage;
-     public static int difficulty;
+    Image redImage;
+    public static int difficulty;
 
     static Media bkMusic = new Media(new File(Main.AUDIO_PATH + "Frogger Main Song Theme (loop).mp3").toURI().toString());
     public static MediaPlayer mediaPlayer = new MediaPlayer(bkMusic);
@@ -123,7 +123,6 @@ public class Main extends Application {
         //ACTION ON BUTTON PLAY
         playButton.setOnAction(e->{
             mediaPlayer.stop();
-            autoPlay=false;
 
             GameScene g= new GameScene();
 
@@ -165,13 +164,7 @@ public class Main extends Application {
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-
-            if (autoPlay){
-                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-                mediaPlayer.play();
-            }
-
-
+            
                 });
 
 
@@ -181,8 +174,8 @@ public class Main extends Application {
                 primaryStage.close();
 
         });
-
-        primaryStage.setScene( new Scene(menuPane, SCREEN_MENU_WIDTH, SCREEN_MENU_HEIGHT));
+        scene=new Scene(menuPane, SCREEN_MENU_WIDTH, SCREEN_MENU_HEIGHT);
+        primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
@@ -194,8 +187,6 @@ public class Main extends Application {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("EXIT");
-        window.setMinWidth(250);
-        window.setMinHeight(270);
         window.setResizable(false);
 
         Label label = new Label("Are you sure you want to exit?");
@@ -214,13 +205,14 @@ public class Main extends Application {
             window.close();
 
         });
+        window.setOnCloseRequest(event -> answer=false);
 
         VBox layout = new VBox(10);
 
         //Add buttons
         layout.getChildren().addAll(label, yesButton, noButton);
         layout.setAlignment(Pos.CENTER);
-        window.setScene(new Scene(layout));
+        window.setScene(new Scene(layout,250,270));
         window.showAndWait();
 
         return answer;

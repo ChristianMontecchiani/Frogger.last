@@ -16,6 +16,8 @@ import java.io.File;
 
 public class PauseClass extends Pane {
 
+    public static boolean gameSceneAutoPlay = true;
+
 
     public static void  pause(AnimationTimer timer,Button button) {
         
@@ -28,23 +30,23 @@ public class PauseClass extends Pane {
         pauseStage.setResizable(false);
         pauseStage.setTitle("Pause Menu");
 
-         AnchorPane pauseAncPane = new AnchorPane();
+        AnchorPane pauseAncPane = new AnchorPane();
 
         //SFONDO DELLO STAGE
-        Image bkimage = new Image(new File(Main.IMAGE_PATH + "sfondoPauseClass.png").toURI().toString(), 291,300,true, true);
+        Image bkimage = new Image(new File(Main.IMAGE_PATH + "sfondoPauseClass.png").toURI().toString(), 291,300,false, true);
         BackgroundImage backgroundImage = new BackgroundImage(bkimage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         pauseAncPane.setBackground(new Background(backgroundImage));
 
         //BOTTONE VOLUME, DIMENSIONE, POSIZIONE
         Button volumeButton = new Button("AUDIO ON/OFF");
-        volumeButton.setPrefSize(120.0,37.0);
+        volumeButton.setPrefSize(130.0,37.0);
         AnchorPane.setTopAnchor(volumeButton,90.0);
         AnchorPane.setLeftAnchor(volumeButton, 85.0);
 
 
         //BOTTONE RESUME, DIMENSIONE, POSIZIONE
         Button resumeButton = new Button("RESUME");
-        resumeButton.setPrefSize(120.0,37.0);
+        resumeButton.setPrefSize(130.0,37.0);
         AnchorPane.setTopAnchor(resumeButton,142.0);
         AnchorPane.setLeftAnchor(resumeButton, 85.0);
 
@@ -57,12 +59,12 @@ public class PauseClass extends Pane {
         //AZIONE BOTTONE VOLUME
         volumeButton.setOnAction(e -> {
 
-            if (Main.autoPlay) {
-                Main.autoPlay = false;
+            if (gameSceneAutoPlay) {
+                gameSceneAutoPlay= false;
                 GameScene.mediaPlayer.pause();
 
             } else {
-                Main.autoPlay = true;
+                gameSceneAutoPlay = true;
                 GameScene.mediaPlayer.play();
             }
         });

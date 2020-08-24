@@ -9,10 +9,11 @@ import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import javafx.scene.control.*;
 import sample.Main;
 import sample.RankingTable;
+
+import static sample.RankingTable.enableAddButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,9 +36,11 @@ import java.util.*;
 
         public static int FROGGER_LIVES = 5; //da modificare con le scene
         public static boolean lifelost=false;
-        EasyScene easy=new EasyScene();
-        MediumScene medium=new MediumScene();
-        HardScene hard=new HardScene();
+
+
+        private EasyScene easy;
+        private MediumScene medium;
+        private HardScene hard;
 
 
         public static Button pauseButton;
@@ -58,11 +61,18 @@ import java.util.*;
 
 
         public  void startGame(int difficulty) {
+           /* GameScene.FROGGER_LIVES=5;
+            GameScene.timeLeft=61;
+            GameScene.timeMax=61;*/
 
+            easy=new EasyScene();
+            medium=new MediumScene();
+            hard=new HardScene();
 
             GameScene.FROGGER_LIVES-=difficulty;
             GameScene.timeLeft-=(difficulty*15);
             GameScene.timeMax-=(difficulty*15);
+
 
             win=new ImageView(w);
             lost=new ImageView(l);
@@ -91,7 +101,8 @@ import java.util.*;
             pauseButton = new Button("||");
             AnchorPane.setTopAnchor(pauseButton, 7.0);
             AnchorPane.setLeftAnchor(pauseButton, 0.0);
-            //Etiichetta tempo
+
+            //Etichetta tempo
             timeLabel=new Label("Time: "+timeLeft);
             timeLabel.setFont(new Font("Calibri", 20));
             AnchorPane.setTopAnchor(timeLabel, 10.0);
@@ -107,7 +118,6 @@ import java.util.*;
 
             Scene scene = new Scene(root, 350, 505);
             Main.primaryStage.setScene(scene);
-
 
 
             List<Entity> interceptable=getEntity(Entity.class);
@@ -153,20 +163,20 @@ import java.util.*;
                         root.getChildren().remove(root.getChildren().size()-6);
 
                     if(FROGGER_LIVES==0|| burrowCounter==5){
+                        enableAddButton=true;
                         pauseButton.setDisable(true);
                         mediaPlayer.pause();
+                        timer.stop();
                         try {
                             RankingTable.scoreRecord();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        timer.stop();
                         if(FROGGER_LIVES==0)
                             root.getChildren().add(lost);
                         else
                             root.getChildren().add(win);
                     }
-
                 }
             };
 
@@ -182,6 +192,4 @@ import java.util.*;
             }
         return someArray;
     }
-
-
 }

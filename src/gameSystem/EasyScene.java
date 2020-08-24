@@ -1,6 +1,5 @@
 package gameSystem;
 
-
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,10 +10,9 @@ import sample.Main;
 import java.io.File;
 
 
-
 public class EasyScene  {
 
-    Label difficultyLabel;
+    public Label difficultyLabel;
     public static AnchorPane backgroundScene;
     ImageView backgroundImage;
     public static ImageView life1,life2,life3,life4,life5;

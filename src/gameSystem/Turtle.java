@@ -32,7 +32,6 @@ public class Turtle extends Entity {
         this.speed = speed;
         setImage(turtle2);
 
-
     }
     public boolean isWet() {
 

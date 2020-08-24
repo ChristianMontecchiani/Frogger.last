@@ -9,11 +9,12 @@ import java.io.File;
 public class Crocodile extends Entity {
 
     private final double speed;
-    Image crocodile1Right;
-    Image crocodile2Right;
-    Image crocodile1Left;
-    Image crocodile2Left;
+    private final Image crocodile1Right;
+    private final Image crocodile2Right;
+    private final Image crocodile1Left;
+    private final Image crocodile2Left;
     private boolean hungry=false;
+
 
     public Crocodile(int xPos,int yPos,int size,double speed){
 
@@ -28,27 +29,27 @@ public class Crocodile extends Entity {
 
     }
 
+
     public double getSpeed(){
         return this.speed;
     }
+
 
     public boolean isHungry(){return hungry;}
 
 
     @Override
     public void movement(Long now) {
+
         move(speed,0);
         if(speed>0){
             if ((now/3/ 900000000 +((int)this.getY()/100) ) % 2 == 1) {
                 setImage(crocodile1Right);
                 hungry=true;
-            }
-            else if ((now/3/ 900000000 +((int)this.getY()/100) )% 2 == 0) {
+            }else if ((now/3/ 900000000 +((int)this.getY()/100) )% 2 == 0) {
                 setImage(crocodile2Right);
                 hungry=false;
             }
-
-
         }else{
             if ((now/3/ 900000000 +((int)this.getY()/100) )% 2 == 1) {
                 setImage(crocodile1Left);
@@ -63,6 +64,5 @@ public class Crocodile extends Entity {
             setX(-180);
         if (getX()<-50 && speed<0)
             setX(700);
-
     }
 }

@@ -10,5 +10,4 @@ public abstract class Entity extends ImageView {
     }
 
     public abstract void movement(Long now);
-
 }
