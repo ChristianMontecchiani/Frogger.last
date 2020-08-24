@@ -1,6 +1,7 @@
 package sample;
 
 import gameSystem.GameScene;
+import gameSystem.PauseClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -125,7 +126,8 @@ public class RankingTable {
 
         resumeButton.setOnAction(e -> {
             numClick++;
-            Main.autoPlay = true;
+            //Main.autoPlay = true;
+            PauseClass.gameSceneAutoPlay=true;
             if(FROGGER_LIVES==0 || burrowCounter==5) {
                 Main.mediaPlayer.pause();
                 primaryStage.setScene(Main.scene);

@@ -70,7 +70,5 @@ public class Turtle extends Entity {
             sink=false;
 
         }
-
     }
-
 }

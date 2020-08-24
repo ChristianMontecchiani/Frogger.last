@@ -13,9 +13,19 @@ public class AudioEffects {
     private final static String waterSplashSound= new File(Main.AUDIO_PATH + "water-splash.wav").toURI().toString();
     private final static String sirenSound= new File(Main.AUDIO_PATH + "siren.wav").toURI().toString();
     private final static String hornSound= new File(Main.AUDIO_PATH + "long-horn.wav").toURI().toString();
+    private final static String jump = new File(Main.AUDIO_PATH + "jump.wav").toURI().toString();
+    private final static String goal = new File(Main.AUDIO_PATH + "goal.wav").toURI().toString();
+    private final static String bonusSound = new File(Main.AUDIO_PATH + "bonus.wav").toURI().toString();
+    private final static String die= new File(Main.AUDIO_PATH + "frog_die.wav").toURI().toString();
+
+
 
     //FROG EFFECT
     private final static  AudioClip frogAudio = new AudioClip(frogSound);
+    public final static AudioClip bonus = new AudioClip(bonusSound);
+    public final static AudioClip frogJump = new AudioClip(jump);
+    public final static AudioClip frogGoal = new AudioClip(goal);
+    public final static AudioClip frogDie = new AudioClip(die);
 
     //WATER EFFECTS
     private final static AudioClip splash= new AudioClip(splashSound);
@@ -28,9 +38,9 @@ public class AudioEffects {
 
 
 
-    public static void playRandomAmbientSound(int timeLeft, Frog frog){
+    public static void playRandomAmbientSound(int timeLeft, Frog frog) {
 
-        LinkedList<AudioClip>road_effects = new LinkedList<>();
+        LinkedList<AudioClip> road_effects = new LinkedList<>();
         road_effects.add(siren);
         road_effects.add(carPass);
         road_effects.add(horn);
@@ -40,17 +50,18 @@ public class AudioEffects {
         water_effects.add(waterSplash);
         Random rand = new Random();
 
-       //FROG
-        if(timeLeft %20 ==0)
-            frogAudio.play(20);
+            //FROG
+            if (timeLeft % 20 == 0)
+                frogAudio.play(20);
 
-        //WATER
-       if(timeLeft%4==0 && frog.getY() < 260 && frog.getY() > 107)
-            water_effects.get(rand.nextInt(2)).play(20);
+            //WATER
+            if (timeLeft % 4 == 0 && frog.getY() < 260 && frog.getY() > 107)
+                water_effects.get(rand.nextInt(2)).play(20);
 
 
-        //ROAD
-        if(timeLeft%5==0 && frog.getY()< 465 && frog.getY() >260)
-            road_effects.get(rand.nextInt(3)).play(20);
-    }
+            //ROAD
+            if (timeLeft % 5 == 0 && frog.getY() < 465 && frog.getY() > 260)
+                road_effects.get(rand.nextInt(3)).play(20);
+
+        }
 }

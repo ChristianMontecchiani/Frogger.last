@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.*;
 
 
-    public class GameScene { //modificato qualcosa
+    public class GameScene {
 
 
         public AnimationTimer timer;
@@ -38,9 +38,9 @@ import java.util.*;
         public static boolean lifelost=false;
 
 
-        private EasyScene easy;
-        private MediumScene medium;
-        private HardScene hard;
+        EasyScene easy;
+        MediumScene medium;
+        HardScene hard;
 
 
         public static Button pauseButton;
@@ -60,18 +60,24 @@ import java.util.*;
 
 
 
+        public void resetGame(int difficulty){
+
+            FROGGER_LIVES = 5 - difficulty;
+            timeLeft = 61-(difficulty*15);
+            timeMax = 61-(difficulty*15);
+            points=0;
+
+        }
+
+
         public  void startGame(int difficulty) {
-           /* GameScene.FROGGER_LIVES=5;
-            GameScene.timeLeft=61;
-            GameScene.timeMax=61;*/
+
+            resetGame(difficulty);
+
 
             easy=new EasyScene();
             medium=new MediumScene();
             hard=new HardScene();
-
-            GameScene.FROGGER_LIVES-=difficulty;
-            GameScene.timeLeft-=(difficulty*15);
-            GameScene.timeMax-=(difficulty*15);
 
 
             win=new ImageView(w);
@@ -86,7 +92,8 @@ import java.util.*;
             media = new Media(new File(Main.AUDIO_PATH + "theme.mp3").toURI().toString());
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.play();
+            if(PauseClass.gameSceneAutoPlay)
+                mediaPlayer.play();
 
 
             if(difficulty==0)
@@ -121,9 +128,10 @@ import java.util.*;
 
 
             List<Entity> interceptable=getEntity(Entity.class);
-            System.out.println(timeLeft);
+
+            /*System.out.println(timeLeft);
             System.out.println(FROGGER_LIVES);
-            System.out.println(points);
+            System.out.println(points);*/
 
 
             //rana
@@ -156,7 +164,8 @@ import java.util.*;
                         timeLeft--;
                         timeLabel.setText("Time: "+timeLeft);
                         lastUpdate=now;
-                        AudioEffects.playRandomAmbientSound(timeLeft, f);
+                        if (PauseClass.gameSceneAutoPlay)
+                            AudioEffects.playRandomAmbientSound(timeLeft, f);
                     }
 
                     if(lifelost)

@@ -1,6 +1,7 @@
 package sample;
 
 import gameSystem.GameScene;
+import gameSystem.PauseClass;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -44,7 +45,7 @@ public class Main extends Application {
 
     static Media bkMusic = new Media(new File(Main.AUDIO_PATH + "Frogger Main Song Theme (loop).mp3").toURI().toString());
     public static MediaPlayer mediaPlayer = new MediaPlayer(bkMusic);
-    public static boolean autoPlay = true;
+    //public static boolean autoPlay = true;
     static boolean answer = false;
 
     @Override
@@ -140,11 +141,13 @@ public class Main extends Application {
         //ACTION ON BUTTON AUDIO
         audioButton.setOnAction(e->{
 
-            if(autoPlay) {
-                autoPlay=false;
+            if(PauseClass.gameSceneAutoPlay) {
+                PauseClass.gameSceneAutoPlay=false;
+                //autoPlay=false;
                 mediaPlayer.pause();
             } else {
-              autoPlay= true;
+
+                PauseClass.gameSceneAutoPlay=true;
               mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
               mediaPlayer.play();
             }

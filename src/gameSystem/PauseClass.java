@@ -18,7 +18,6 @@ public class PauseClass extends Pane {
 
     public static boolean gameSceneAutoPlay = true;
 
-
     public static void  pause(AnimationTimer timer,Button button) {
         
         //STOPPO IL TEMPO

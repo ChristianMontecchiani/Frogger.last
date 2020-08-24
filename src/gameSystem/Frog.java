@@ -3,7 +3,6 @@ package gameSystem;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.media.AudioClip;
 import sample.Main;
 
 import java.io.File;
@@ -13,12 +12,7 @@ import java.util.List;
 
 public class Frog extends Entity {
 
-    private final static String jump = new File(Main.AUDIO_PATH + "jump.wav").toURI().toString();
-    private final static String goal = new File(Main.AUDIO_PATH + "goal.wav").toURI().toString();
-    private final static String bonusSound = new File(Main.AUDIO_PATH + "bonus.wav").toURI().toString();
-    private final static AudioClip bonus = new AudioClip(bonusSound);
-    private final static AudioClip frogJump = new AudioClip(jump);
-    private final static AudioClip frogGoal = new AudioClip(goal);
+
 
     List<Entity> entities;
 
@@ -38,6 +32,7 @@ public class Frog extends Entity {
     double crocSpeed = 0; //serve per capire se si muove verso destra o sinistra
 
     Scene game;
+    public static boolean isAFK=false;//per quando stai afk e il tempo finisce
     boolean timeExpired = false;
     boolean isDeath = true;//per evitare che i key pressed/realesed in eccesso spostino l'animazione della morte
     boolean noMove = false;//per evitare che la rana continui a spostarsi se morta
@@ -112,25 +107,29 @@ public class Frog extends Entity {
                     if (isDeath) {
                         setImage(imgW1);
                         singleClick = true;
-                        frogJump.play(20);
+                        if (PauseClass.gameSceneAutoPlay)
+                        AudioEffects.frogJump.play(20);
                     }
                 } else if (event.getCode() == KeyCode.A || event.getCode() == KeyCode.LEFT) {
                     if (isDeath) {
                         setImage(imgA1);
                         singleClick = true;
-                        frogJump.play(20);
+                        if (PauseClass.gameSceneAutoPlay)
+                        AudioEffects.frogJump.play(20);
                     }
                 } else if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
                     if (isDeath) {
                         setImage(imgS1);
                         singleClick = true;
-                        frogJump.play(20);
+                        if (PauseClass.gameSceneAutoPlay)
+                        AudioEffects.frogJump.play(20);
                     }
                 } else if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
                     if (isDeath) {
                         setImage(imgD1);
                         singleClick = true;
-                        frogJump.play(20);
+                        if (PauseClass.gameSceneAutoPlay)
+                        AudioEffects.frogJump.play(20);
                     }
                 }
             });
@@ -143,15 +142,16 @@ public class Frog extends Entity {
         control();
 
         if (getX() < 0 || getX() > 350 || getY()>505) {
-            GameScene.lifelost = true;
+            carDeath=true;
             death = true;
-            GameScene.timeLeft = GameScene.timeMax;
-            GameScene.FROGGER_LIVES--;
-            setX(135);
-            setY(475);
-            Death.frogDie.play(20);
+            isDeath = false;
+            isDeath = Death.carDeath(now, this);
+            GameScene.timeLeft=GameScene.timeMax;
+            if (PauseClass.gameSceneAutoPlay)
+                AudioEffects.frogDie.play(10);
         }
 
+        if(!isAFK)
         if (getY() == 475 && getX() == 135) {
             death = false;
             noMove = false;
@@ -160,12 +160,16 @@ public class Frog extends Entity {
             GameScene.lifelost = false;
         }
 
-        if (GameScene.timeLeft == 0 || timeExpired) {
-            timeExpired = true;
+        if (GameScene.timeLeft == 0) {
+            carDeath=true;
             death = true;
             isDeath = false;
+            if (PauseClass.gameSceneAutoPlay)
+                AudioEffects.frogDie.play(10);
+            if(getY()==475 && getX()==135)
+                isAFK=true;
             isDeath = Death.carDeath(now, this);
-            GameScene.timeLeft = GameScene.timeMax;
+            GameScene.timeLeft=GameScene.timeMax;
         }
 
         if(getY()>260)
@@ -208,6 +212,8 @@ public class Frog extends Entity {
                         noMove = true;
                         isDeath = Death.waterDeath(now, this);
                         GameScene.timeLeft=GameScene.timeMax;
+                        if (PauseClass.gameSceneAutoPlay)
+                            AudioEffects.frogDie.play(10);
                     }
 
                     } else {
@@ -224,7 +230,8 @@ public class Frog extends Entity {
             //ZONA VITTORIA
             if (getY() < 107) {
                 if (Collision.specificCollision(entities, this, Burrow.class)) {
-                    frogGoal.play(20);
+                    if (PauseClass.gameSceneAutoPlay)
+                        AudioEffects.frogGoal.play(20);
                     GameScene.points += 100 + (Main.difficulty * 30);
                     GameScene.scoreLabel.setText("Score: " + GameScene.points);
                     Burrow b = Collision.getOne(entities, this, Burrow.class);
@@ -233,7 +240,7 @@ public class Frog extends Entity {
                             GameScene.points += 150 + (Main.difficulty *30);
                             GameScene.scoreLabel.setText("Score: " + GameScene.points);
                             System.out.println("bonus");
-                            bonus.play(20);
+                            AudioEffects.bonus.play(20);
                         }
 
                         this.setX(135);

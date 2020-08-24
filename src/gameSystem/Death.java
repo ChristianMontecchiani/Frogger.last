@@ -1,7 +1,6 @@
 package gameSystem;
 
 import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
 import sample.Main;
 
 import java.io.File;
@@ -9,8 +8,7 @@ import java.io.File;
 
 public class Death {
 
-    private final static String die= new File(Main.AUDIO_PATH + "frog_die.wav").toURI().toString();
-    public final static AudioClip frogDie = new AudioClip(die);
+
 
     private static int carD = 0;
     private static int watD = 0;
@@ -25,7 +23,8 @@ public class Death {
 
         if(carD==1) {
             frog.setImage(new Image(new File(Main.IMAGE_PATH + "cardeath1.png").toURI().toString(), 30, 30, true, true));
-            frogDie.play(20);
+            if (PauseClass.gameSceneAutoPlay)
+                AudioEffects.frogDie.play(20);
         }
         if(carD==2) {
             frog.setImage(new Image(new File(Main.IMAGE_PATH + "cardeath2.png").toURI().toString(), 30, 30, true, true));
@@ -56,7 +55,8 @@ public class Death {
 
         if(watD==1) {
             frog.setImage(new Image(new File(Main.IMAGE_PATH + "waterdeath1.png").toURI().toString(), 30, 30, true, true));
-            frogDie.play(20);
+            if (PauseClass.gameSceneAutoPlay)
+                AudioEffects.frogDie.play(20);
         }
         if(watD==2) {
             frog.setImage(new Image(new File(Main.IMAGE_PATH + "waterdeath2.png").toURI().toString(), 30, 30, true, true));
